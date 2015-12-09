@@ -5,9 +5,9 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 
-import io.github.joaomlneto.advent_of_code.PuzzleSolver;
+import io.github.joaomlneto.advent_of_code.Solver;
 
-public class Day6 extends PuzzleSolver {
+public class Day6 extends Solver {
 
 	LightGrid gridV1 = new LightGridV1();
 	LightGrid gridV2 = new LightGridV2();

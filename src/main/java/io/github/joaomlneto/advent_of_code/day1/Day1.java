@@ -5,9 +5,9 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 
-import io.github.joaomlneto.advent_of_code.PuzzleSolver;
+import io.github.joaomlneto.advent_of_code.Solver;
 
-public class Day1 extends PuzzleSolver {
+public class Day1 extends Solver {
 	private int currentFloor = 0;
 	private int basementIndex = 0;
 	private boolean enteredBasement = false;

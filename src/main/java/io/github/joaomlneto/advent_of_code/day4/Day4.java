@@ -7,9 +7,9 @@ import java.security.MessageDigest;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FileUtils;
 
-import io.github.joaomlneto.advent_of_code.PuzzleSolver;
+import io.github.joaomlneto.advent_of_code.Solver;
 
-public class Day4 extends PuzzleSolver {
+public class Day4 extends Solver {
 
 	int fiveZeroesNumber;
 	int sixZeroesNumber;

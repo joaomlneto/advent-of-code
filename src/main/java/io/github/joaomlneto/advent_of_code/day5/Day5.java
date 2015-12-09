@@ -5,9 +5,9 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 
-import io.github.joaomlneto.advent_of_code.PuzzleSolver;
+import io.github.joaomlneto.advent_of_code.Solver;
 
-public class Day5 extends PuzzleSolver {
+public class Day5 extends Solver {
 
 	public static final int MIN_VOWELS = 3;
 	public static final String[] BAD_SUBSTRINGS = { "ab", "cd", "pq", "xy" };

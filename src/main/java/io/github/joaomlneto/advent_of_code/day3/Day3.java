@@ -7,9 +7,9 @@ import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 
-import io.github.joaomlneto.advent_of_code.PuzzleSolver;
+import io.github.joaomlneto.advent_of_code.Solver;
 
-public class Day3 extends PuzzleSolver {
+public class Day3 extends Solver {
 
 	private int numHousesYear1 = 0;
 	private int numHousesYear2 = 0;

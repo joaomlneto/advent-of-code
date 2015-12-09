@@ -1,6 +1,6 @@
 package io.github.joaomlneto.advent_of_code;
 
-public abstract class PuzzleSolver {
+public abstract class Solver {
 
 	public abstract String getFirstAnswer();
 

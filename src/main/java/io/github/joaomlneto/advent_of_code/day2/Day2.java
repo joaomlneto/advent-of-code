@@ -5,9 +5,9 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 
-import io.github.joaomlneto.advent_of_code.PuzzleSolver;
+import io.github.joaomlneto.advent_of_code.Solver;
 
-public class Day2 extends PuzzleSolver {
+public class Day2 extends Solver {
 
 	private int paperArea = 0;
 	private int ribbonLength = 0;
