@@ -13,6 +13,7 @@ public class Day2 extends Solver {
 	private int ribbonLength = 0;
 
 	public Day2(String input) {
+		super(input);
 		String[] lines = input.split("\\r?\\n");
 		for (int i = 0; i < lines.length; i++) {
 			String line = lines[i];
@@ -26,6 +27,16 @@ public class Day2 extends Solver {
 	}
 
 	@Override
+	public String getFirstAnswerDescription() {
+		return "Paper area";
+	}
+
+	@Override
+	public String getSecondAnswerDescription() {
+		return "Ribbon Length";
+	}
+
+	@Override
 	public String getFirstAnswer() {
 		return Integer.toString(paperArea);
 	}
@@ -33,15 +44,6 @@ public class Day2 extends Solver {
 	@Override
 	public String getSecondAnswer() {
 		return Integer.toString(ribbonLength);
-	}
-
-	@Override
-	public String toString() {
-		String nl = System.lineSeparator();
-		String ans = getName() + nl;
-		ans += "Paper Area: " + getFirstAnswer() + nl;
-		ans += "Ribbon Length: " + getSecondAnswer();
-		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {

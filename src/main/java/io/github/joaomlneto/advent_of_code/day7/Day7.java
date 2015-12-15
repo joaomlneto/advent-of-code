@@ -13,6 +13,7 @@ public class Day7 extends Solver {
 	LogicBoard board2 = new LogicBoard();
 
 	public Day7(String input) {
+		super(input);
 		String[] lines = input.split("\\r?\\n");
 		for (String command : lines) {
 			String[] words = command.split(" ");
@@ -57,6 +58,16 @@ public class Day7 extends Solver {
 	}
 
 	@Override
+	public String getFirstAnswerDescription() {
+		return "board 1";
+	}
+
+	@Override
+	public String getSecondAnswerDescription() {
+		return "board 2";
+	}
+
+	@Override
 	public String getFirstAnswer() {
 		return Integer.toString(board1.getGate("a").getValue());
 	}
@@ -64,15 +75,6 @@ public class Day7 extends Solver {
 	@Override
 	public String getSecondAnswer() {
 		return Integer.toString(board2.getGate("a").getValue());
-	}
-
-	@Override
-	public String toString() {
-		String nl = System.lineSeparator();
-		String ans = getName() + nl;
-		ans += "a (board 1): " + getFirstAnswer() + nl;
-		ans += "a (board 2): " + getSecondAnswer();
-		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {

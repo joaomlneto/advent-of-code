@@ -13,11 +13,22 @@ public class Day6 extends Solver {
 	LightGrid gridV2 = new LightGridV2();
 
 	public Day6(String input) {
+		super(input);
 		String[] lines = input.split("\\r?\\n");
 		for (String command : lines) {
 			gridV1.parseCommand(command);
 			gridV2.parseCommand(command);
 		}
+	}
+
+	@Override
+	public String getFirstAnswerDescription() {
+		return "Luminosity Version 1";
+	}
+
+	@Override
+	public String getSecondAnswerDescription() {
+		return "Luminosity Version 2";
 	}
 
 	@Override
@@ -28,15 +39,6 @@ public class Day6 extends Solver {
 	@Override
 	public String getSecondAnswer() {
 		return Integer.toString(gridV2.getLuminosity());
-	}
-
-	@Override
-	public String toString() {
-		String nl = System.lineSeparator();
-		String ans = getName() + nl;
-		ans += "Luminosity V1: " + getFirstAnswer() + nl;
-		ans += "Luminosity V2: " + getSecondAnswer();
-		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {

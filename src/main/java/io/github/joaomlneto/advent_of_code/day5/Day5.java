@@ -16,6 +16,7 @@ public class Day5 extends Solver {
 	private int numNiceStringsV2 = 0;
 
 	public Day5(String input) {
+		super(input);
 		String[] lines = input.split("\\r?\\n");
 		for (String line : lines) {
 			if (isNiceStringV1(line)) {
@@ -81,6 +82,16 @@ public class Day5 extends Solver {
 	}
 
 	@Override
+	public String getFirstAnswerDescription() {
+		return "Version 1";
+	}
+
+	@Override
+	public String getSecondAnswerDescription() {
+		return "Version 2";
+	}
+
+	@Override
 	public String getFirstAnswer() {
 		return Integer.toString(numNiceStringsV1);
 	}
@@ -88,15 +99,6 @@ public class Day5 extends Solver {
 	@Override
 	public String getSecondAnswer() {
 		return Integer.toString(numNiceStringsV2);
-	}
-
-	@Override
-	public String toString() {
-		String nl = System.lineSeparator();
-		String ans = getName() + nl;
-		ans += "V1: " + getFirstAnswer() + nl;
-		ans += "V2: " + getSecondAnswer();
-		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {

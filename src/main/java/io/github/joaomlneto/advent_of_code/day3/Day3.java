@@ -15,6 +15,7 @@ public class Day3 extends Solver {
 	private int numHousesYear2 = 0;
 
 	public Day3(String input) {
+		super(input);
 		String inputSantaYear2 = "";
 		String inputRobotYear2 = "";
 		for(int i=0; i<input.length(); i++) {
@@ -33,6 +34,16 @@ public class Day3 extends Solver {
 	}
 
 	@Override
+	public String getFirstAnswerDescription() {
+		return "Year 1";
+	}
+
+	@Override
+	public String getSecondAnswerDescription() {
+		return "Year 2";
+	}
+
+	@Override
 	public String getFirstAnswer() {
 		return Integer.toString(numHousesYear1);
 	}
@@ -40,15 +51,6 @@ public class Day3 extends Solver {
 	@Override
 	public String getSecondAnswer() {
 		return Integer.toString(numHousesYear2);
-	}
-
-	@Override
-	public String toString() {
-		String nl = System.lineSeparator();
-		String ans = getName() + nl;
-		ans += "Year 1: " + getFirstAnswer() + nl;
-		ans += "Year 2: " + getSecondAnswer();
-		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {

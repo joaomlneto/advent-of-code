@@ -14,10 +14,21 @@ public class Day8 extends Solver {
 	private List<SantaString> strings = new ArrayList<SantaString>();
 
 	public Day8(String input) {
+		super(input);
 		String[] lines = input.split("\\r?\\n");
 		for (String line : lines) {
 			strings.add(new SantaString(line));
 		}
+	}
+
+	@Override
+	public String getFirstAnswerDescription() {
+		return "Diff encoded";
+	}
+
+	@Override
+	public String getSecondAnswerDescription() {
+		return "Diff decoded";
 	}
 
 	@Override
@@ -40,15 +51,6 @@ public class Day8 extends Solver {
 			bytesEncoded += s.getEncoded().length();
 		}
 		return Integer.toString(bytesEncoded - bytesOriginal);
-	}
-
-	@Override
-	public String toString() {
-		String nl = System.lineSeparator();
-		String ans = getName() + nl;
-		ans += "diff encoded: " + getFirstAnswer() + nl;
-		ans += "diff decoded: " + getSecondAnswer();
-		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {

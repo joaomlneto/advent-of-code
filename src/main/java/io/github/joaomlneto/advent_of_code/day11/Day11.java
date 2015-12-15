@@ -9,10 +9,8 @@ import io.github.joaomlneto.advent_of_code.Solver;
 
 public class Day11 extends Solver {
 
-	String input;
-
 	public Day11(String input) {
-		this.input = input;
+		super(input);
 	}
 
 	public boolean isValidPassword(String password) {
@@ -58,33 +56,36 @@ public class Day11 extends Solver {
 		}
 		return new String(chars);
 	}
+	
+	public String nextPassword() {
+		return nextPassword(this.input);
+	}
 
-	public String nextPassword(String input) {
+	public String nextPassword(String password) {
 		do {
-			input = incrementPassword(input);
-		} while(!isValidPassword(input));
-		return input;
+			password = incrementPassword(password);
+		} while(!isValidPassword(password));
+		return password;
+	}
+
+	@Override
+	public String getFirstAnswerDescription() {
+		return "Next Password n+1";
+	}
+
+	@Override
+	public String getSecondAnswerDescription() {
+		return "Next Next Password";
 	}
 
 	@Override
 	public String getFirstAnswer() {
-		this.input = nextPassword(this.input);
-		return this.input;
+		return nextPassword();
 	}
 
 	@Override
 	public String getSecondAnswer() {
-		this.input = nextPassword(this.input);
-		return this.input;
-	}
-
-	@Override
-	public String toString() {
-		String nl = System.lineSeparator();
-		String ans = getName() + nl;
-		ans += "next password: " + getFirstAnswer() + nl;
-		ans += "next next password: " + getSecondAnswer();
-		return ans;
+		return nextPassword(nextPassword());
 	}
 
 	public static void main(String[] args) throws IOException {

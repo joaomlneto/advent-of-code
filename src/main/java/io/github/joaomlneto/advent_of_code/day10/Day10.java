@@ -9,10 +9,8 @@ import io.github.joaomlneto.advent_of_code.Solver;
 
 public class Day10 extends Solver {
 
-	String input;
-
 	public Day10(String input) {
-		this.input = input;
+		super(input);
 	}
 
 	public String getStep(String input, int numSteps) {
@@ -35,6 +33,16 @@ public class Day10 extends Solver {
 	}
 
 	@Override
+	public String getFirstAnswerDescription() {
+		return "Step 40 Length";
+	}
+
+	@Override
+	public String getSecondAnswerDescription() {
+		return "Step 50 Length";
+	}
+
+	@Override
 	public String getFirstAnswer() {
 		return Integer.toString(getStep(input, 40).length());
 	}
@@ -42,15 +50,6 @@ public class Day10 extends Solver {
 	@Override
 	public String getSecondAnswer() {
 		return Integer.toString(getStep(input, 50).length());
-	}
-
-	@Override
-	public String toString() {
-		String nl = System.lineSeparator();
-		String ans = getName() + nl;
-		ans += "step 40 length: " + getFirstAnswer() + nl;
-		ans += "step 50 length: " + getSecondAnswer();
-		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {

@@ -17,6 +17,7 @@ public class Day9 extends Solver {
 	Map<String, Map<String, Integer>> distances = new TreeMap<String, Map<String, Integer>>();
 
 	public Day9(String input) {
+		super(input);
 		String[] lines = input.split("\\r?\\n");
 		for (String line : lines) {
 			String[] words = line.split(" ");
@@ -105,6 +106,16 @@ public class Day9 extends Solver {
 	}
 
 	@Override
+	public String getFirstAnswerDescription() {
+		return "Shortest Distance";
+	}
+
+	@Override
+	public String getSecondAnswerDescription() {
+		return "Longest Distance";
+	}
+
+	@Override
 	public String getFirstAnswer() {
 		return Integer.toString(shortestDistance());
 	}
@@ -112,15 +123,6 @@ public class Day9 extends Solver {
 	@Override
 	public String getSecondAnswer() {
 		return Integer.toString(longestDistance());
-	}
-
-	@Override
-	public String toString() {
-		String nl = System.lineSeparator();
-		String ans = getName() + nl;
-		ans += "Shortest distance: " + getFirstAnswer() + nl;
-		ans += "Longest distance: " + getSecondAnswer();
-		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {

@@ -15,6 +15,7 @@ public class Day4 extends Solver {
 	int sixZeroesNumber;
 
 	public Day4(String input) {
+		super(input);
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			boolean foundFiveZeroesNumber = false;
@@ -42,6 +43,16 @@ public class Day4 extends Solver {
 	}
 
 	@Override
+	public String getFirstAnswerDescription() {
+		return "Five zeros";
+	}
+
+	@Override
+	public String getSecondAnswerDescription() {
+		return "Six zeros";
+	}
+
+	@Override
 	public String getFirstAnswer() {
 		return Integer.toString(fiveZeroesNumber);
 	}
@@ -49,15 +60,6 @@ public class Day4 extends Solver {
 	@Override
 	public String getSecondAnswer() {
 		return Integer.toString(sixZeroesNumber);
-	}
-
-	@Override
-	public String toString() {
-		String nl = System.lineSeparator();
-		String ans = getName() + nl;
-		ans += "Five zeroes: " + getFirstAnswer() + nl;
-		ans += "Six zeroes': " + getSecondAnswer();
-		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {
