@@ -15,6 +15,10 @@ public class Reindeer {
 		this.restDuration = restDuration;
 	}
 
+	public String getName() {
+		return name;
+	}
+
 	public void awardPoint() {
 		points++;
 	}
