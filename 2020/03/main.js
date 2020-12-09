@@ -1,9 +1,5 @@
 const fs = require('fs')
 
-function xor(a,b) {
-  return ( a || b ) && !( a && b );
-}
-
 const file = fs.readFileSync('input.txt').toString('utf8');
 
 const map = file.split('\n')
