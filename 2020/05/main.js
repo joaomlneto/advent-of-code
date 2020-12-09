@@ -56,16 +56,14 @@ const boardingPasses = file.split('\n')
       seatID: getSeatID(row, column),
     }
   })
+  // sort by seat ID, descending (for part 1)
   .sort((a, b) => (a.seatID < b.seatID) ? 1 : (b.seatID < a.seatID ? -1 : 0))
 
 
 
 // PART 1
 
-const compareBySeatIDDescending = (a, b) =>
-  (a.seatID < b.seatID) ? 1 : (b.seatID < a.seatID ? -1 : 0)[0]
-
-console.log('Highest Seat ID:', boardingPasses.sort(compareBySeatIDDescending)[0])
+console.log('Highest Seat ID:', boardingPasses[0])
 
 
 
