@@ -46,12 +46,9 @@ for (let i=0; i < passwords.length; i++) {
   const char = passwords[i].char
   const index1 = passwords[i].min - 1
   const index2 = passwords[i].max - 1
-  console.log('\n',passwords[i])
   if (xor(password.charAt(index1).toString() == char,
           password.charAt(index2).toString() == char)) {
-    console.log('password', passwords[i], 'is valid')
     numValidPart2++;
-    console.log('valid =', numValidPart2)
   }
 }
 
