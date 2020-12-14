@@ -39,7 +39,10 @@ function replaceCharAtIndex(string, position, replacement) {
   return string.slice(0, position) + replacement + string.slice(position + 1)
 }
 
-function applyInstructions(instructions, addrDecoder, valueDecoder) {
+function applyInstructions(instructions, {
+  addrDecoder = (a) => [a],
+  valueDecoder = (v) => v
+}) {
   let mask = ''
   let mem = {}
   for (let i = 0; i < instructions.length; i++) {
@@ -76,7 +79,7 @@ function valueDecoder(value, mask) {
   return bin2dec(maskedBin)
 }
 
-function addressDecoderV2(address, mask) {
+function addrDecoder(address, mask) {
   let addresses = []
   let binAddress = dec2bin(address).padStart(MASK_LEN, '0')
 
@@ -107,8 +110,5 @@ function addressDecoderV2(address, mask) {
   return addresses
 }
 
-console.log('Part 1 =',
-            applyInstructions(instructions, (a) => [a], valueDecoder).sum)
-
-console.log('Part 2 =',
-            applyInstructions(instructions, addressDecoderV2, (v) => v).sum)
+console.log('Part 1 =', applyInstructions(instructions, {valueDecoder}).sum)
+console.log('Part 2 =', applyInstructions(instructions, {addrDecoder}).sum)
