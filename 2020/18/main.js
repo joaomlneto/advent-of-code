@@ -4,10 +4,7 @@ const filename = 'input.txt'
 const file = fs.readFileSync(filename).toString('utf8')
 console.log('filename:', filename)
 
-const expressions = file
-  .split('\n')
-  .filter(line => line.length > 0)
-
+// splits the string into a sequence of tokens
 function getTokensFromString(expressionString) {
   return expressionString
     .replace(/\(/g, '( ')
@@ -16,57 +13,58 @@ function getTokensFromString(expressionString) {
     .map(token => isNaN(token) ? token : Number(token))
 }
 
-function findOperand(expr) {
+// finds the list of tokens composing an operand at the start of the string
+function findOperand(tokens) {
   let i = 0;
   let depth = 0;
   do {
-    switch(expr[i++]) {
+    switch(tokens[i++]) {
       case '(': depth++; break;
       case ')': depth--; break;
     }
   } while (depth > 0)
-  return /*(i === 1) ? expr[0] :*/ expr.slice(0, i)
+  return tokens.slice(0, i)
 }
 
-function leftAssociateOperations({operands, operators}) {
-  node = operands[0]
-  for (let i = 0; i < operators.length; i++) {
-    node = {
-      left: node,
-      op: operators[i],
-      right: operands[i+1],
-    }
-  }
-  return node
-}
-
-function buildAST(tokens) {
-  // check if it's a leaf node
-  if (Number.isInteger(tokens)) return tokens
-  if (tokens.length === 1) return tokens[0]
-
-  // check if it's a parenthesis wrapped expression
-  if (findOperand(tokens).length === tokens.length) {
-    console.log('this is tough!')
-    //if (tokens[0] == '(' && tokens[tokens.length - 1] == ')')
-    return buildAST(tokens.slice(1, -1))
-  }
-
-  // if its none of the above, it must be a chain of same-level expressions
+// this will return the list of top-level operations in the sequence of tokens.
+// for example, for "a + b * c + d" it will return {
+//   operands: [a, b, c, d]
+//   operators: ['+', '*', '+']
+// }
+function getListOfOperations(tokens, associativityFunction) {
   let operands = []
   let operators = []
-  console.log('COMPLEX EXPRESSION:', tokens.join(''))
   while (tokens.length > 0) {
     const operand = findOperand(tokens)
     const operandLength = Number.isInteger(operand) ? 1 : operand.length
     const operator = tokens[operandLength]
-    operands.push(buildAST(operand))
+    operands.push(buildAST(operand, associativityFunction))
     if (operator) operators.push(operator)
     tokens = tokens.slice(operandLength + 1)
   }
-  return leftAssociateOperations({operands, operators})
+  return {operands, operators}
 }
 
+// build the abstract syntax tree for the tokens, given an associativityFunction
+// The associativityFunction is a function that receives a list of operations
+// and returns the syntax tree corresponding to its evaluation of those operations
+// For part 1, we simply apply the operations in the order they appear.
+// For part 2, we apply additions before multiplications.
+function buildAST(tokens, associativityFunction) {
+  // check if it's a leaf node
+  if (tokens.length === 1) return tokens[0]
+
+  // check if it's a parenthesis wrapped expression/operand
+  if (tokens[0] === '(' && findOperand(tokens).length === tokens.length) {
+    return buildAST(tokens.slice(1, -1), associativityFunction)
+  }
+
+  // if its none of the above, it must be a chain of same-level expressions
+  const {operands, operators} = getListOfOperations(tokens, associativityFunction)
+  return associativityFunction({operands, operators})
+}
+
+// given a node of the abstract syntax tree, compute its value
 function evaluateAST(node) {
   // check if it is a leaf node
   if (Number.isInteger(node)) return node
@@ -78,28 +76,61 @@ function evaluateAST(node) {
   }
 }
 
-function evaluateExpressionString(expressionString) {
+// given the string representation of an expression, compute its result
+function evaluateExpressionString(expressionString, associativityFunction) {
   const tokens = getTokensFromString(expressionString)
-    console.log('evaluating', tokens.join(''))
-  const ast = buildAST(tokens)
+  const ast = buildAST(tokens, associativityFunction)
   const result = evaluateAST(ast)
   return result
 }
 
-const expr = "((6 * 3 + 2 + 6) * 7 + 7 * 5 + 3 * 4) + ((5 * 6 * 7 + 9 * 2) * 6 + (2 * 7))"
-console.log('\nEXPRESSION:', expr)
+// Associativity Function: Apply operations in order (Part 1)
+function associateOperationsInOrder({operands, operators}) {
+  node = operands[0]
+  for (let i = 0; i < operators.length; i++) {
+    node = {
+      left: node,
+      op: operators[i],
+      right: operands[i+1],
+    }
+  }
+  return node
+}
 
-const tokens = getTokensFromString(expr)
-console.log('\nTOKENS:', tokens)
+// Associativity Function: Apply additions before multiplications (Part 2)
+function associateOperationsWithPrecedence({operands, operators}) {
+  const LOWER_PRECEDENCE_OPERATOR = '*'
+  const index = operators.indexOf(LOWER_PRECEDENCE_OPERATOR)
 
-const ast = buildAST(tokens)
-console.log("\n" + JSON.stringify(ast, null, 4))
+  // if there are multiplications, make them be resolved after the additions
+  if (index !== -1) {
+    return {
+      left: associateOperationsWithPrecedence({
+        operands: operands.slice(0, index + 1),
+        operators: operators.slice(0, index),
+      }),
+      op: '*',
+      right: associateOperationsWithPrecedence({
+        operands: operands.slice(index + 1),
+        operators: operators.slice(index + 1),
+      }),
+    }
+  }
 
-const result = evaluateAST(ast)
-console.log('\nRESULT =', result)
+  // if there are no multiplications, just apply the operations in order
+  return associateOperationsInOrder({operands, operators})
+}
 
 
+
+const expressions = file
+  .split('\n')
+  .filter(line => line.length > 0)
 
 console.log('Part 1 =', expressions
-  .map(expr => evaluateExpressionString(expr))
+  .map(expr => evaluateExpressionString(expr, associateOperationsInOrder))
+  .reduce((a, b) => a + b, 0))
+
+console.log('Part 2 =', expressions
+  .map(expr => evaluateExpressionString(expr, associateOperationsWithPrecedence))
   .reduce((a, b) => a + b, 0))
