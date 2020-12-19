@@ -5,9 +5,12 @@ const file = fs.readFileSync(filename).toString('utf8')
 console.log('filename:', filename)
 
 
+
+// Parse input
 const input = file
   .split('\n\n')
 
+// Parse rules
 const rulesObj = input[0]
   .split('\n')
   .filter(line => line.length > 0)
@@ -17,20 +20,18 @@ const rulesObj = input[0]
       .map(r => r.split(' ')
         .map(x => isNaN(x) ? x.replace(/\"/g, '') : Number(x))),
   }))
-
 let rules = []
 Object.entries(rulesObj).forEach(([i, r]) => rules[r.id] = r.match)
 
-console.log(rules)
-
+// Parse messages
 const messages = input[1].split('\n').filter(msg => msg.length > 0)
 
-console.log(JSON.stringify(messages, null, 2))
-
+// uncomment for debug information during analysis
 function log(depth, ...msgs) {
-  console.log(" |  ".repeat(depth), ...msgs)
+  //console.log(" |  ".repeat(depth), ...msgs)
 }
 
+// checks if the 'message' matches the subrule
 function checkAgainstSubrule(rules, message, pattern, depth = 0) {
   log(depth, 'SUBRULE', pattern, " => ", message)
   let unmatched = [message]
@@ -57,6 +58,7 @@ function checkAgainstSubrule(rules, message, pattern, depth = 0) {
   return {matched, unmatched}
 }
 
+// checks if the 'message' matches any of the subrules
 function checkAgainstRule(rules, message, ruleId, depth = 0) {
   log(depth, 'RULE', ruleId, ':', rules[ruleId], "=>", message)
   let unmatched = []
@@ -71,6 +73,7 @@ function checkAgainstRule(rules, message, ruleId, depth = 0) {
   return {matched, unmatched}
 }
 
+// checks if a message completely matches rule zero in a given list of rules
 function checkMessage(rules, message) {
   const {matched, unmatched} = checkAgainstRule(rules, message, 0)
   return (
@@ -80,9 +83,20 @@ function checkMessage(rules, message) {
   )
 }
 
-const x = checkMessage(rules, messages[4])
+// patch the rules (part 2)
+function patchRules(rules) {
+  rules[8] = [[42], [42, 8]]
+  rules[11] = [[42, 31], [42, 11, 31]]
+  return rules
+}
 
-const res = messages
-  .map(message => checkMessage(rules, message))
-  .filter(message => message)
-console.log('Part 1 =', res.length)
+// counts how many messages satisfy the given list of rules
+function countValidMessages(rules, messages) {
+  return messages
+    .map(message => checkMessage(rules, message))
+    .filter(message => message)
+    .length
+}
+
+console.log('Part 1 =', countValidMessages(rules, messages))
+console.log('Part 2 =', countValidMessages(patchRules(rules), messages))
