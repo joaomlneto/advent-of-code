@@ -14,12 +14,6 @@ function identifyPossibleIngredientsWithAllergen(foods, allergen) {
   return [...setIntersection(...foodIngredients)]
 }
 
-function ingredientMayContainAllergen(allergens, ingredient) {
-  return allergens
-    .filter(allergen => allergen.ingredients.includes(ingredient.name))
-    .length > 0
-}
-
 function solveUnsafeIngredients(allergens) {
   let solved = []
   let isTrivialAllergen = (allergen) => allergen.ingredients.length === 1
@@ -72,10 +66,9 @@ const ingredients = [...new Set(foods.map(food => food.ingredients).flat())]
 // console.log(ingredients)
 
 const definitelySafeIngredients = ingredients
-.filter(ingredient => !ingredientMayContainAllergen(allergens, ingredient))
-
-const possiblyUnsafeIngredients = ingredients
-.filter(ingredient => ingredientMayContainAllergen(allergens, ingredient))
+  .filter(ingredient => allergens
+    .filter(allergen => allergen.ingredients.includes(ingredient.name))
+    .length === 0)
 
 console.log('Part 1 =',
 definitelySafeIngredients.reduce((sum, ing) => sum + ing.foods.length, 0))
