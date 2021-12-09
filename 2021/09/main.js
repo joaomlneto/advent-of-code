@@ -16,24 +16,21 @@ const isLowPoint = (heightmap, r, c) =>
 // computes the risk level of a position
 const riskLevel = (height) => height + 1
 
-// returns an array of all positions ({row, col}) in the heightmap
-const heightmapPositions = (heightmap) =>
-    heightmap.map((row, rowIndex) =>
-        row.map((value, colIndex) =>
-            position(rowIndex, colIndex))).flat()
-
 // returns the list of positions ({row, col}) that are low points
 const lowPoints = (heightmap) =>
-    heightmapPositions(heightmap).filter(({row, col}) => isLowPoint(heightmap, row, col))
+    // map all coordinates to their {row, col} positions
+    heightmap.map((row, rowIndex) => row.map((value, colIndex) => position(rowIndex, colIndex)))
+        // turn the 2D array into a 1D array
+        .flat()
+        // filter out those that are not low points
+        .filter(({row, col}) => isLowPoint(heightmap, row, col))
 
 // returns the sum of risk levels of all the low points
 const sumOfLowPointRiskLevels = (heightmap) =>
+    // given the list of low points, map them to their risk level
     lowPoints(heightmap).map(({row, col}) => riskLevel(heightmap[row][col]))
+        // and compute their sum
         .reduce((a, b) => a + b, 0)
-
-// check if a given array contains the given position in it
-const arrayContainsPosition = (array, position) =>
-    array.some(({row, col}) => position.row == row && position.col == col)
 
 // returns the list of adjacent positions to a given position
 const adjacentPositions = (heightmap, row, col) => [
@@ -43,7 +40,7 @@ const adjacentPositions = (heightmap, row, col) => [
     ...(col === heightmap[row].length - 1 ? [] : [position(row, col + 1)]),
 ]
 
-// get the list of positions that are upstream of the given position
+// get the list of positions that are upstream (i.e. higher elevation) of the given position
 const upstreamPositions = (heightmap, r, c) =>
     adjacentPositions(heightmap, r, c).filter(({row, col}) => heightmap[r][c] < heightmap[row][col])
 
@@ -58,11 +55,13 @@ const filterDuplicatePositions = (positions) =>
 // compute the basin of a given position
 // it is the position itself plus the set of positions that are upstream of it
 const basin = (heightmap, row, col) => filterDuplicatePositions([
-    ...(heightmap[row][col] === 9 ? [] : [position(row, col)]),
+    ...(heightmap[row][col] === 9 ? [] : [position(row, col)]), // positions of height 9 are excluded
     ...upstreamPositions(heightmap, row, col).map(({row, col}) => basin(heightmap, row, col)).flat()
 ])
 
+// get the sizes of all the basins (that flow to a low point)
 const lowpointBasinSizes = (heightmap) => lowPoints(heightmap).map(({row, col}) => basin(heightmap, row, col).length)
+
 const productThreeBiggestBasinSizes = (heightmap) =>
     lowpointBasinSizes(heightmap) // get the sizes of all low point basins
         .sort((a, b) => b - a) // sort them by length
