@@ -4,7 +4,6 @@ const filename = 'input.txt'
 const file = fs.readFileSync(filename).toString('utf8')
 console.log('filename:', filename)
 
-// get list of edges from input in the format [{from, to}]
 const [dotsString, instructionsString] = file.split('\n\n')
 
 const EMPTY = ' ' // Changed from '.' for easier visualization
