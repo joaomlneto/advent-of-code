@@ -13,7 +13,7 @@ const packetPairs = file.trim()
     .split("\n\n")
     .map((packet) => packet
         .split("\n")
-        .map(eval))
+        .map(JSON.parse))
     .map(([left, right]) => ({ left, right }));
 
 // function to check if a pair of packets is in the right order (part 1)
